@@ -28,33 +28,36 @@ set(CMAKE_VERBOSE_MAKEFILE ON)
 
 glob_files_nohip(experimental_gen_ai_cpp_source_files_cpu
   src/attention/cuda/*.cpp
-  src/coalesce/*.cpp
-  src/comm/*.cpp
-  src/kv_cache/*.cpp
-  src/moe/*.cpp
-  src/quantize/*.cpp
-  src/quantize/common/*.cpp)
+  # src/coalesce/*.cpp
+  # src/comm/*.cpp
+  # src/kv_cache/*.cpp
+  # src/moe/*.cpp
+  # src/quantize/*.cpp
+  # src/quantize/common/*.cpp
+  )
 
 glob_files_nohip(experimental_gen_ai_cpp_source_files_gpu
   src/attention/cuda/*.cu
   src/attention/cuda/cutlass_blackwell_fmha/blackwell_*.cu
-  src/coalesce/*.cu
-  src/comm/*.cu
-  src/kv_cache/*.cu
-  src/moe/*.cu
-  src/quantize/*.cu)
+  # src/coalesce/*.cu
+  # src/comm/*.cu
+  # src/kv_cache/*.cu
+  # src/moe/*.cu
+  # src/quantize/*.cu
+  )
 
 if(FBGEMM_BUILD_VARIANT STREQUAL BUILD_VARIANT_CUDA)
-  glob_files_nohip(tmp_list_cpu
-    src/gather_scatter/*.cpp)
+  # Comment out gather_scatter to reduce build time
+  # glob_files_nohip(tmp_list_cpu
+  #   src/gather_scatter/*.cpp)
 
-  glob_files_nohip(tmp_list_gpu
-    src/gather_scatter/*.cu)
+  # glob_files_nohip(tmp_list_gpu
+  #   src/gather_scatter/*.cu)
 
-  list(APPEND experimental_gen_ai_cpp_source_files_cpu
-    ${tmp_list_cpu} ${tmp_list_cpu2})
-  list(APPEND experimental_gen_ai_cpp_source_files_gpu
-    ${tmp_list_gpu} ${tmp_list_gpu2})
+  # list(APPEND experimental_gen_ai_cpp_source_files_cpu
+  #   ${tmp_list_cpu} ${tmp_list_cpu2})
+  # list(APPEND experimental_gen_ai_cpp_source_files_gpu
+  #   ${tmp_list_gpu} ${tmp_list_gpu2})
 endif()
 
 # Include FB-internal code into the build
@@ -97,13 +100,14 @@ else()
     "will be EXCLUDING FB-internal sources.")
 endif()
 
-# CUDA-specific sources
-file(GLOB_RECURSE experimental_gen_ai_cpp_source_files_cuda
-  src/quantize/cutlass_extensions/*.cu
-  src/quantize/cutlass_extensions/**/*.cu
-  src/quantize/fast_gemv/*.cu
-  src/quantize/fast_gemv/**/*.cu
-  src/quantize/fast_gemv/**/*.cuh)
+# CUDA-specific sources (commented out to reduce build time)
+# file(GLOB_RECURSE experimental_gen_ai_cpp_source_files_cuda
+#   src/quantize/cutlass_extensions/*.cu
+#   src/quantize/cutlass_extensions/**/*.cu
+#   src/quantize/fast_gemv/*.cu
+#   src/quantize/fast_gemv/**/*.cu
+#   src/quantize/fast_gemv/**/*.cuh)
+set(experimental_gen_ai_cpp_source_files_cuda "")
 
 # HIP-specific sources
 file(GLOB_RECURSE experimental_gen_ai_cpp_source_files_hip
